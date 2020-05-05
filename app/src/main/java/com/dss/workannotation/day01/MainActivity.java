@@ -101,11 +101,9 @@ public class MainActivity extends AppCompatActivity {
         likeBean.setAge(16);
 
         LikeBean[] likeBeanArray = new LikeBean[5];
-        likeBeanArray[0] = likeBean;
-        likeBeanArray[1] = likeBean;
-        likeBeanArray[2] = likeBean;
-        likeBeanArray[3] = likeBean;
-        likeBeanArray[4] = likeBean;
+        for (int i = 0; i < likeBeanArray.length; i++) {
+            likeBeanArray[i] = likeBean;
+        }
 
         List<LikeBean> likeBeanList = new ArrayList<>();
         for (LikeBean bean : likeBeanArray) {
@@ -113,11 +111,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         LikeBean2[] likeBean2Array = new LikeBean2[5];
-        likeBean2Array[0] = new LikeBean2();
-        likeBean2Array[1] = new LikeBean2();
-        likeBean2Array[2] = new LikeBean2();
-        likeBean2Array[3] = new LikeBean2();
-        likeBean2Array[4] = new LikeBean2();
+        for (int i = 0; i < likeBean2Array.length; i++) {
+            likeBean2Array[i] = new LikeBean2();
+        }
 
         Intent intent = new Intent(this, AActivity.class)
                 .putExtra("name", "小明")
@@ -126,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 .putExtra("likeBean", likeBean)
                 .putExtra("likeBeanList", (Serializable) likeBeanList)
                 .putExtra("likeBeanArray", likeBeanArray)
-                .putExtra("likeBean2Array",  likeBean2Array);
+                .putExtra("likeBean2Array", likeBean2Array);
         startActivity(intent);
     }
 
