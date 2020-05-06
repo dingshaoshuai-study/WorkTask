@@ -5,19 +5,19 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class TextViewGroup extends ViewGroup {
+public class TextLayout extends ViewGroup {
 
-    private int offset = 100;
+    private int offset = 60;
 
-    public TextViewGroup(Context context) {
+    public TextLayout(Context context) {
         super(context);
     }
 
-    public TextViewGroup(Context context, AttributeSet attrs) {
+    public TextLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public TextViewGroup(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TextLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -46,7 +46,9 @@ public class TextViewGroup extends ViewGroup {
             case MeasureSpec.UNSPECIFIED:
                 for (int i = 0; i < childCount; i++) {
                     View child = getChildAt(i);
-                    int childWidth = i * offset + child.getMeasuredWidth();
+                    TextLayout.LayoutParams lp = (LayoutParams) child.getLayoutParams();
+                    int spacing = getPaddingLeft() + getPaddingRight() + lp.leftMargin + lp.rightMargin;
+                    int childWidth = i * offset + child.getMeasuredWidth() + spacing;
                     width = Math.max(width, childWidth);
                 }
                 break;
@@ -61,7 +63,14 @@ public class TextViewGroup extends ViewGroup {
             case MeasureSpec.UNSPECIFIED:
                 for (int i = 0; i < childCount; i++) {
                     View child = getChildAt(i);
-                    height += child.getMeasuredHeight();
+                    TextLayout.LayoutParams lp = (LayoutParams) child.getLayoutParams();
+                    int spacing = lp.topMargin + lp.bottomMargin;
+                    if (i == 0) {//第一个加paddingTop
+                        spacing += getPaddingTop();
+                    } else if (i == childCount - 1) {//最后一个加paddingBottom
+                        spacing += getPaddingBottom();
+                    }
+                    height += (child.getMeasuredHeight() + spacing);
                 }
                 break;
             default:
@@ -79,11 +88,40 @@ public class TextViewGroup extends ViewGroup {
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             View child = getChildAt(i);
-            left = i * offset;
+            TextLayout.LayoutParams lp = (LayoutParams) child.getLayoutParams();
+            top += lp.topMargin;
+            if (i == 0) {//如果是第一个，处理paddingTop
+                top += getPaddingTop();
+            }
+            left = i * offset + lp.leftMargin + getPaddingLeft();
             right = child.getMeasuredWidth() + left;
             bottom = child.getMeasuredHeight() + top;
             child.layout(left, top, right, bottom);
-            top += child.getMeasuredHeight();//此处不考虑padding、margin
+            top += child.getMeasuredHeight() + lp.bottomMargin;
+        }
+    }
+
+    @Override
+    public ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new TextLayout.LayoutParams(getContext(), attrs);
+    }
+
+    public static class LayoutParams extends ViewGroup.MarginLayoutParams {
+
+        public LayoutParams(Context c, AttributeSet attrs) {
+            super(c, attrs);
+        }
+
+        public LayoutParams(int width, int height) {
+            super(width, height);
+        }
+
+        public LayoutParams(MarginLayoutParams source) {
+            super(source);
+        }
+
+        public LayoutParams(ViewGroup.LayoutParams source) {
+            super(source);
         }
     }
 }
