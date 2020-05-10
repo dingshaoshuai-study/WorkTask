@@ -2,10 +2,8 @@
 <com.dss.workannotation.view.TextLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:background="#000"
-    android:paddingLeft="30dp"
-    android:paddingRight="30dp"
     android:paddingTop="15dp"
     android:paddingBottom="15dp"
     tools:context=".view.ViewActivity">
@@ -57,14 +55,15 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="#eee"
+        android:paddingRight="50dp"
         android:text="我是第六行" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:background="#fff"
+        android:paddingRight="80dp"
         android:text="我是第七行" />
 
 </com.dss.workannotation.view.TextLayout>
